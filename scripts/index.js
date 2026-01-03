@@ -23,6 +23,7 @@ let initialCards = [
     name: "Lago di Braies",
     link: "https://practicum-content.s3.us-west-1.amazonaws.com/web-code/moved_lago.jpg",
   },
+  {},
 ];
 
 initialCards.forEach(function (card) {
@@ -40,6 +41,10 @@ const inputDescription = profileEditPopup.querySelector(
   ".popup__input_type_description"
 );
 const formElement = d.querySelector("#edit-profile-form");
+const cardsList = d.querySelector(".cards__list");
+const cardTemplate = d
+  .querySelector("#card-template")
+  .content.querySelector(".card");
 
 function openModal(modal) {
   modal.classList.add("popup_is-opened");
@@ -76,3 +81,24 @@ profileClosePopupBtn.addEventListener("click", (e) => {
 });
 
 formElement.addEventListener("submit", handleProfileFormSubmit);
+
+function getCardElement(
+  name = "Sin título",
+  link = "./images/placeholder.jpg"
+) {
+  const cardElement = cardTemplate.cloneNode(true);
+  const cardTitle = cardElement.querySelector(".card__title");
+  const cardImage = cardElement.querySelector(".card__image");
+
+  cardTitle.textContent = name;
+  cardImage.src = link;
+  cardImage.alt = name;
+
+  return cardElement;
+}
+
+function renderCard(name, link, container) {
+  container.append(getCardElement(name, link));
+}
+
+initialCards.forEach((el) => renderCard(el.name, el.link, cardsList));
