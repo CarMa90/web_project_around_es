@@ -112,6 +112,10 @@ function handleCardLikes(card) {
   card.classList.toggle("card__like-button_is-active");
 }
 
+function handleCardRemove(card) {
+  card.remove();
+}
+
 function getCardElement(
   name = "Sin título",
   link = "./images/placeholder.jpg"
@@ -120,9 +124,14 @@ function getCardElement(
   const cardTitle = cardElement.querySelector(".card__title");
   const cardImage = cardElement.querySelector(".card__image");
   const cardLikeBtn = cardElement.querySelector(".card__like-button");
+  const cardRemoveBtn = cardElement.querySelector(".card__delete-button");
 
   cardLikeBtn.addEventListener("click", (e) => {
     handleCardLikes(cardLikeBtn);
+  });
+
+  cardRemoveBtn.addEventListener("click", (e) => {
+    handleCardRemove(cardElement);
   });
 
   cardTitle.textContent = name;
