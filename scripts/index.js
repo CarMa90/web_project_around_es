@@ -108,6 +108,10 @@ newCardFormElement.addEventListener("submit", (e) => {
   handleCardFormSubmit();
 });
 
+function handleCardLikes(card) {
+  card.classList.toggle("card__like-button_is-active");
+}
+
 function getCardElement(
   name = "Sin título",
   link = "./images/placeholder.jpg"
@@ -115,6 +119,11 @@ function getCardElement(
   const cardElement = cardTemplate.cloneNode(true);
   const cardTitle = cardElement.querySelector(".card__title");
   const cardImage = cardElement.querySelector(".card__image");
+  const cardLikeBtn = cardElement.querySelector(".card__like-button");
+
+  cardLikeBtn.addEventListener("click", (e) => {
+    handleCardLikes(cardLikeBtn);
+  });
 
   cardTitle.textContent = name;
   cardImage.src = link;
