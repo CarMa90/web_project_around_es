@@ -23,7 +23,6 @@ let initialCards = [
     name: "Lago di Braies",
     link: "https://practicum-content.s3.us-west-1.amazonaws.com/web-code/moved_lago.jpg",
   },
-  {},
 ];
 
 initialCards.forEach(function (card) {
@@ -45,6 +44,14 @@ const cardsList = d.querySelector(".cards__list");
 const cardTemplate = d
   .querySelector("#card-template")
   .content.querySelector(".card");
+const profileAddBtn = d.querySelector(".profile__add-button");
+const newCardPopup = d.querySelector("#new-card-popup");
+const newCardClosePopupBtn = newCardPopup.querySelector(".popup__close");
+const inputNewCardName = newCardPopup.querySelector(
+  ".popup__input_type_card-name"
+);
+const inputNewCardUrl = newCardPopup.querySelector(".popup__input_type_url");
+const newCardFormElement = d.querySelector("#new-card-form");
 
 function openModal(modal) {
   modal.classList.add("popup_is-opened");
@@ -82,6 +89,25 @@ profileClosePopupBtn.addEventListener("click", (e) => {
 
 formElement.addEventListener("submit", handleProfileFormSubmit);
 
+profileAddBtn.addEventListener("click", (e) => {
+  openModal(newCardPopup);
+});
+newCardClosePopupBtn.addEventListener("click", (e) => {
+  closeModal(newCardPopup);
+});
+
+function handleCardFormSubmit() {
+  // console.log(inputNewCardName.value);
+  // console.log(inputNewCardUrl.value);
+  renderCard(inputNewCardName.value, inputNewCardUrl.value, cardsList);
+  closeModal(newCardPopup);
+}
+
+newCardFormElement.addEventListener("submit", (e) => {
+  e.preventDefault();
+  handleCardFormSubmit();
+});
+
 function getCardElement(
   name = "Sin título",
   link = "./images/placeholder.jpg"
@@ -98,7 +124,7 @@ function getCardElement(
 }
 
 function renderCard(name, link, container) {
-  container.append(getCardElement(name, link));
+  container.prepend(getCardElement(name, link));
 }
 
 initialCards.forEach((el) => renderCard(el.name, el.link, cardsList));
