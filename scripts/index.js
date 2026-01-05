@@ -52,6 +52,10 @@ const inputNewCardName = newCardPopup.querySelector(
 );
 const inputNewCardUrl = newCardPopup.querySelector(".popup__input_type_url");
 const newCardFormElement = d.querySelector("#new-card-form");
+const imagePopup = d.querySelector("#image-popup");
+const imageClosePopupBtn = imagePopup.querySelector(".popup__close");
+const imagePopupImage = imagePopup.querySelector(".popup__image");
+const imagePopupTitle = imagePopup.querySelector(".popup__caption");
 
 function openModal(modal) {
   modal.classList.add("popup_is-opened");
@@ -116,6 +120,18 @@ function handleCardRemove(card) {
   card.remove();
 }
 
+function handleOpenImageModal(card) {
+  openModal(imagePopup);
+  // console.log(card);
+  imagePopupImage.src = card.querySelector(".card__image").src;
+  imagePopupImage.alt = card.querySelector(".card__title").textContent;
+  imagePopupTitle.textContent = card.querySelector(".card__title").textContent;
+}
+
+imageClosePopupBtn.addEventListener("click", (e) => {
+  closeModal(imagePopup);
+});
+
 function getCardElement(
   name = "Sin título",
   link = "./images/placeholder.jpg"
@@ -132,6 +148,10 @@ function getCardElement(
 
   cardRemoveBtn.addEventListener("click", (e) => {
     handleCardRemove(cardElement);
+  });
+
+  cardImage.addEventListener("click", (e) => {
+    handleOpenImageModal(cardElement);
   });
 
   cardTitle.textContent = name;
