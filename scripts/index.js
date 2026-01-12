@@ -78,6 +78,7 @@ function handleProfileFormSubmit(evt) {
   evt.preventDefault();
   profileTitle.textContent = inputName.value;
   profileDescription.textContent = inputDescription.value;
+  evt.target.reset();
   closeModal(profileEditPopup);
 }
 
@@ -110,6 +111,7 @@ function handleCardFormSubmit() {
 newCardFormElement.addEventListener("submit", (e) => {
   e.preventDefault();
   handleCardFormSubmit();
+  e.target.reset();
 });
 
 function handleCardLikes(card) {
@@ -166,3 +168,69 @@ function renderCard(name, link, container) {
 }
 
 initialCards.forEach((el) => renderCard(el.name, el.link, cardsList));
+
+const forms = d.querySelectorAll(".popup__form");
+
+function showErrorMessage(input, errorMessage) {
+  const $errorMessageSpan = d.querySelector(`.${input.name}-error-message`);
+  $errorMessageSpan.textContent = errorMessage;
+}
+
+function hideErrorMessage(input) {
+  const $errorMessageSpan = d.querySelector(`.${input.name}-error-message`);
+  $errorMessageSpan.textContent = "";
+}
+
+function chechkInputValidity(input) {
+  if (!input.validity.valid) {
+    showErrorMessage(input, input.validationMessage);
+  } else {
+    hideErrorMessage(input);
+  }
+}
+
+function toggleDisableButton(form) {
+  const submitBtn = form.querySelector(".popup__button");
+  if (!form.checkValidity()) {
+    submitBtn.disabled = true;
+  } else {
+    submitBtn.disabled = false;
+  }
+}
+
+forms.forEach((form) => {
+  const inputs = form.querySelectorAll(".popup__input");
+
+  form.addEventListener("input", (e) => {
+    toggleDisableButton(form);
+  });
+
+  form.addEventListener("submit", (e) => {
+    toggleDisableButton(form);
+  });
+
+  d.addEventListener("click", (e) => {
+    if (
+      e.target.matches(".profile__edit-button") ||
+      e.target.matches(".profile__add-button")
+    ) {
+      toggleDisableButton(form);
+    }
+  });
+
+  inputs.forEach((input) => {
+    // console.log(input);
+    input.addEventListener("input", (e) => {
+      chechkInputValidity(input);
+    });
+
+    d.addEventListener("click", (e) => {
+      if (
+        e.target.matches(".profile__edit-button") ||
+        e.target.matches(".profile__add-button")
+      ) {
+        chechkInputValidity(input);
+      }
+    });
+  });
+});
