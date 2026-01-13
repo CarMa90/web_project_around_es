@@ -234,3 +234,32 @@ forms.forEach((form) => {
     });
   });
 });
+
+profileEditPopup.addEventListener("click", (e) => {
+  if (
+    !(
+      e.target.matches(".popup__content *") ||
+      e.target.matches(".popup__content")
+    )
+  ) {
+    closeModal(profileEditPopup);
+  }
+});
+
+newCardPopup.addEventListener("click", (e) => {
+  if (
+    !(
+      e.target.matches(".popup__content *") ||
+      e.target.matches(".popup__content")
+    )
+  ) {
+    closeModal(newCardPopup);
+  }
+});
+
+d.addEventListener("keydown", (e) => {
+  if (e.key === "Escape") {
+    closeModal(newCardPopup);
+    closeModal(profileEditPopup);
+  }
+});
