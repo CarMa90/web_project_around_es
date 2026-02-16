@@ -80,15 +80,4 @@ export class Card {
 
     document.querySelector(".cards__list").prepend(card);
   }
-
-  handleCardFormSubmit() {
-    const card = new Card(
-      {
-        name: inputNewCardName.value,
-        link: inputNewCardUrl.value,
-      },
-      cardTemplate,
-    );
-    card.this.renderCard();
-  }
 }
