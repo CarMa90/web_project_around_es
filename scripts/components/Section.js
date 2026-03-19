@@ -1,7 +1,8 @@
 export default class Section {
-  constructor({ items, renderer }, containerSelector) {
+  constructor({ items, renderer }, containerSelector, method) {
     this._items = items;
     this._renderer = renderer;
+    this._method = method;
 
     this._container = document.querySelector(containerSelector);
   }
@@ -13,6 +14,11 @@ export default class Section {
   }
 
   addItem(element) {
-    this._container.prepend(element);
+    // console.log(this._method === "append");
+    if (this._method === "append") {
+      this._container.append(element);
+    } else if (this._method === "prepend") {
+      this._container.prepend(element);
+    }
   }
 }

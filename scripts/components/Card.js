@@ -1,9 +1,19 @@
 export default class Card {
-  constructor(data, template, { handleCardClick }) {
+  constructor(
+    data,
+    template,
+    { handleCardClick },
+    { handleDeleteClick },
+    { handleLikeClick },
+  ) {
     this.name = data.name || "Sin título";
     this.link = data.link || "./images/placeholder.jpg";
+    this._id = data._id;
+    this._isLiked = data.isLiked;
     this.template = template;
     this.handleCardClick = handleCardClick;
+    this.handleDeleteClick = handleDeleteClick;
+    this.handleLikeClick = handleLikeClick;
   }
 
   _getTemplate() {
@@ -12,26 +22,13 @@ export default class Card {
     return cardElement;
   }
 
-  _handleCardLikes(card) {
-    card.classList.toggle("card__like-button_is-active");
+  _handleCardLikes(cardLikeBtn, cardId) {
+    this.handleLikeClick(cardLikeBtn, cardId);
   }
 
-  _handleCardRemove(card) {
-    if (confirm(`¿Seguro que quieres eliminar ${this.name}?`)) {
-      card.remove();
-    }
+  _handleCardRemove(cardId) {
+    this.handleDeleteClick(cardId);
   }
-
-  /*
-  _handleOpenImageModal() {
-    // this.handleCardClick(el);
-    const imageModal = document.querySelector("#image-popup");
-    imageModal.classList.add("popup_is-opened");
-    imageModal.querySelector(".popup__image").src = this.link;
-    imageModal.querySelector(".popup__image").alt = this.name;
-    imageModal.querySelector(".popup__caption").textContent = this.name;
-  }
-  */
 
   _showPopupWithImage() {
     this.handleCardClick();
@@ -45,12 +42,18 @@ export default class Card {
     const cardLikeBtn = this.element.querySelector(".card__like-button");
     const cardRemoveBtn = this.element.querySelector(".card__delete-button");
 
+    if (this._isLiked) {
+      cardLikeBtn.classList.add("card__like-button_is-active");
+    } else if (!this._isLiked) {
+      cardLikeBtn.classList.remove("card__like-button_is-active");
+    }
+
     cardLikeBtn.addEventListener("click", (e) => {
-      this._handleCardLikes(cardLikeBtn);
+      this._handleCardLikes(cardLikeBtn, this._id);
     });
 
     cardRemoveBtn.addEventListener("click", (e) => {
-      this._handleCardRemove(this.element);
+      this._handleCardRemove(this._id);
     });
 
     cardImage.addEventListener("click", (e) => {

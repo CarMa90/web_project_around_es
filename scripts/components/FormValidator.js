@@ -49,7 +49,8 @@ export class FormValidator {
     document.addEventListener("click", (e) => {
       if (
         e.target.matches(".profile__edit-button") ||
-        e.target.matches(".profile__add-button")
+        e.target.matches(".profile__add-button") ||
+        e.target.matches(".profile__image-container *")
       ) {
         this._toggleDisableButton(this.form);
       }
@@ -63,7 +64,8 @@ export class FormValidator {
       document.addEventListener("click", (e) => {
         if (
           e.target.matches(".profile__edit-button") ||
-          e.target.matches(".profile__add-button")
+          e.target.matches(".profile__add-button") ||
+          e.target.matches(".profile__image-container *")
         ) {
           this._checkInputValidity(input);
         }
